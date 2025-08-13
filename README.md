@@ -172,8 +172,9 @@ This project is licensed under the **MIT License**.
 ## 👨‍💻 Author
 
 **Satyam Kumar Kasyap**
-📧 Email: *[your-email@example.com](mailto:satyamku88@gmail.com)*
-🔗 GitHub: [Your GitHub Profile](https://github.com/Satyamku88)
+📧 Email: *[satyamku88@gmail.com](mailto:satyamku88@gmail.com)*
+🔗 GitHub: [Satyamku88-GitHub](https://github.com/Satyamku88)
 
 ---
+
 
