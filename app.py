@@ -44,7 +44,7 @@ def analyze_audio(file_path):
     pitch_values = pitch_values[pitch_values != 0]
     avg_pitch = np.mean(pitch_values) if len(pitch_values) > 0 else 0
     pitch_var = np.std(pitch_values) if len(pitch_values) > 0 else 0
-    y, sr_rate = librosa.load(file_path)
+    y, sr_rate = librosa.load(file_path, sr=22050) 
     rms = np.mean(librosa.feature.rms(y=y))
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr_rate)
     tempo = float(tempo)
