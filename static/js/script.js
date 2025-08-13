@@ -47,7 +47,7 @@ function addChat(text, who='bot', meta=''){
 
   const avatar = document.createElement('img');
   avatar.className = 'bubble-avatar';
-  avatar.src = who === 'bot' ? '/static/images/bot-full.png' : '/static/images/user.png';
+  avatar.src = who === 'bot' ? '/static/images/bot.png' : '/static/images/bott.png';
 
   wrapper.appendChild(bubble);
   wrapper.appendChild(avatar);
