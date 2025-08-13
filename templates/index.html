@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Mock Interview</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left: Live camera -->
+    <aside class="col col-left">
+      <div class="camera-card">
+        <div class="camera-header">
+          <div class="cam-label">Your Camera</div>
+          <div id="cam-status" class="cam-status">Live</div>
+        </div>
+        <video id="localVideo" autoplay playsinline muted class="local-video"></video>
+        <div class="cam-footer">Make sure your face is centered and well lit</div>
+      </div>
+    </aside>
+
+    <!-- Center: Chat / conversation -->
+    <main class="col col-center">
+      <div class="chat-top">
+        <h2>Interview Conversation</h2>
+        <div class="small-help">Bot asks → you answer (record) → AI replies with feedback</div>
+      </div>
+
+      <div id="chat" class="chat-panel">
+        <!-- initial bot message injected server-side -->
+        <div class="chat-message bot">
+          <div class="bubble">
+            <div class="bubble-text">{{ question }}</div>
+            <div class="bubble-meta">Question</div>
+          </div>
+          <img src="{{ url_for('static', filename='images/bot-full.png') }}" class="bubble-avatar" alt="Bot">
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="recordBtn" class="btn primary">🎙️ Record Answer</button>
+        <div id="rec-indicator" class="rec-indicator">● Not recording</div>
+      </div>
+    </main>
+
+    <!-- Right: Full bot illustration -->
+    <aside class="col col-right">
+      <div class="bot-card">
+        <img id="botImg" src="{{ url_for('static', filename='images/bot.png') }}" alt="Bot" class="bot-image">
+        <div id="botName">Interviewer AI</div>
+        <div id="botStatus" class="bot-status">Asking questions</div>
+      </div>
+    </aside>
+  </div>
+
+  <audio id="ttsPlayer" hidden></audio>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
