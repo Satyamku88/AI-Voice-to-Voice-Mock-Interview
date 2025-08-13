@@ -77,35 +77,49 @@ recordBtn.addEventListener('click', async () => {
         const userPlaceholder = addChat('... (processing your answer)', 'user', 'You');
 
         // send audio to backend
-        try {
-          const resp = await fetch('/api/answer', { method: 'POST', body: form });
-          if (!resp.ok) {
-            userPlaceholder.querySelector('.bubble-text').textContent = 'Error: server error';
-            recIndicator.textContent = '● Not recording';
-            isRecording = false;
-            recordBtn.textContent = '🎙️ Record Answer';
-            return;
-          }
-          const data = await resp.json(); // expect JSON: { transcript, feedback, question? }
-          // replace placeholder with actual transcript
-          userPlaceholder.querySelector('.bubble-text').textContent = data.transcript || 'No transcript';
+       try {
+  const resp = await fetch('/api/answer', { method: 'POST', body: form });
+  if (!resp.ok) {
+    userPlaceholder.querySelector('.bubble-text').textContent = 'Error: server error';
+    recIndicator.textContent = '● Not recording';
+    isRecording = false;
+    recordBtn.textContent = '🎙️ Record Answer';
+    return;
+  }
+  const data = await resp.json(); // expect JSON: { transcript, feedback, ai_audio }
+  
+  // replace placeholder with actual transcript
+  userPlaceholder.querySelector('.bubble-text').textContent = data.transcript || 'No transcript';
 
-          // add bot feedback in chat
-          const botBubble = addChat(data.feedback || 'No feedback provided', 'bot', 'Feedback');
+  // add bot feedback in chat
+  addChat(data.feedback || 'No feedback provided', 'bot', 'Feedback');
 
-          // if server provided next question, show it too
-          if (data.question) addChat(data.question, 'bot', 'Question');
-
-          // request TTS for the feedback and play it
-          await playTTS(data.feedback || 'Here is some feedback.');
-        } catch (err) {
-          console.error('Error sending audio', err);
-          userPlaceholder.querySelector('.bubble-text').textContent = 'Error: network';
-        } finally {
-          recIndicator.textContent = '● Not recording';
-          isRecording = false;
-          recordBtn.textContent = '🎙️ Record Answer';
-        }
+  // **** CORRECTED PART ****
+  // If the server sent back an audio filename, play it directly
+  if (data.ai_audio) {
+    const audioUrl = `/api/audio/${data.ai_audio}`;
+    const audio = new Audio(audioUrl);
+    // Add visual indicator while bot is "speaking"
+    const botImg = document.getElementById('botImg');
+    const botStatus = document.getElementById('botStatus');
+    botImg.classList.add('bot-speaking');
+    botStatus.textContent = 'Speaking...';
+    audio.play();
+    audio.onended = () => {
+        // Remove visual indicator when done
+        botImg.classList.remove('bot-speaking');
+        botStatus.textContent = 'Idle';
+    };
+  }
+  
+} catch (err) {
+  console.error('Error sending audio', err);
+  userPlaceholder.querySelector('.bubble-text').textContent = 'Error: network';
+} finally {
+  recIndicator.textContent = '● Not recording';
+  isRecording = false;
+  recordBtn.textContent = '🎙️ Record Answer';
+}
       };
 
       mediaRecorder.start();

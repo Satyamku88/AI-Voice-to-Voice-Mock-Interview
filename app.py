@@ -17,7 +17,10 @@ def index():
     return render_template("index.html")
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyD5HMDOD4c3okb21pA0WXXSkdsAi03tu_k")
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("No GOOGLE_API_KEY set for Flask application")
+genai.configure(api_key=api_key)
 
 recognizer = sr.Recognizer()
 
