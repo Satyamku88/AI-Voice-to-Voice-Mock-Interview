@@ -84,7 +84,7 @@ def process_answer():
 
     # --- FIX 3: Add error handling for the AI call and use a standard model ---
     try:
-        model = genai.GenerativeModel("gemini-pro") # Using the standard 'gemini-pro' model
+        model = genai.GenerativeModel("gemini-2.0-flash") # Using the standard 'gemini-pro' model
         response = model.generate_content(prompt)
         ai_text = response.text.strip()
     except Exception as e:
